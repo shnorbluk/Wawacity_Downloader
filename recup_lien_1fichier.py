@@ -14,6 +14,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 import sys
+import shutil
 
 args = sys.argv
 mode_debug = False
@@ -49,14 +50,25 @@ else:
 
 def driver_init():
     print(f"\n\nInitialising...\n{Fore.BLACK}")
+
     def is_exe(fpath):
         return os.path.isfile(fpath) and os.access(fpath, os.X_OK)
+    def detect_scoop_chrome_app():
+        chrome_exe = shutil.which("chrome")
+        chrome_exe_dir = os.path.dirname(chrome_exe)
+        chrome_shim = os.path.join(chrome_exe_dir, "chrome.shim")
+        if os.path.isfile(chrome_shim):
+            with open(chrome_shim, 'r', encoding='utf8') as file:
+                return file.readline().strip().split(" = ")[1].replace('"', '')
+        return None
 
     portable_chrome_path = 'Chrome\\App\\Chrome-bin\\chrome.exe'
     if "CHROME_PATH" in config:
         chrome_path = config["CHROME_PATH"]
     elif is_exe(portable_chrome_path):
         chrome_path = portable_chrome_path
+    elif (scoop_chrome_app := detect_scoop_chrome_app()):
+        chrome_path = scoop_chrome_app
     else:
         chrome_path = None
 
