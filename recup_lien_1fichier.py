@@ -49,16 +49,21 @@ else:
 
 def driver_init():
     print(f"\n\nInitialising...\n{Fore.BLACK}")
+    def is_exe(fpath):
+        return os.path.isfile(fpath) and os.access(fpath, os.X_OK)
 
-    chrome_path = 'Chrome\\App\\Chrome-bin\\chrome.exe'
+    portable_chrome_path = 'Chrome\\App\\Chrome-bin\\chrome.exe'
     if "CHROME_PATH" in config:
         chrome_path = config["CHROME_PATH"]
+    elif is_exe(portable_chrome_path):
+        chrome_path = portable_chrome_path
+    else:
+        chrome_path = None
 
     # options = Options()
     service = Service()
     options = webdriver.ChromeOptions()
 
-    options.add_argument(chrome_path)
     if not mode_debug:
         options.add_argument('--headless')
     options.add_argument('--no-sandbox')
@@ -66,7 +71,8 @@ def driver_init():
     options.add_argument('--lang=fr')
     options.add_argument('--disable-extensions')
     options.add_argument("--disable-search-engine-choice-screen")
-    options.binary_location = chrome_path
+    if chrome_path:
+        options.binary_location = chrome_path
 
     # service = ChromeService(executable_path=chromedriver_path)
 
