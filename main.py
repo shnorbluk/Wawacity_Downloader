@@ -430,7 +430,7 @@ def parseMovieUploadPage(uploadName, uploadUrl):
     liste_sites = driver.find_elements(By.XPATH, "//*[@id=\"DDLLinks\"]/tbody/tr/td[2]")
     liste_liens_sites = driver.find_elements(By.XPATH, "//*[@id=\"DDLLinks\"]/tbody/tr/td[1]/a")
     links = {liste_sites[i].text: liste_liens_sites[i].get_attribute("href") for i in range(len(liste_sites))
-               if  "Partie" not in liste_liens_sites[i].text}
+               if  "Partie " not in liste_liens_sites[i].text}
     liste_tailles = driver.find_elements(By.XPATH, "//*[@id=\"DDLLinks\"]/tbody/tr/td[3]")
     size = liste_tailles[0].text
     uploadDate = uploadDates.get(uploadUrl)
@@ -561,7 +561,7 @@ liste_sites = driver.find_elements(By.XPATH, "//*[@id=\"DDLLinks\"]/tbody/tr/td[
 liste_liens_sites = driver.find_elements(By.XPATH, "//*[@id=\"DDLLinks\"]/tbody/tr/td[1]/a")
 
 liens_sites = {liste_sites[i].text: liste_liens_sites[i].get_attribute("href") for i in range(len(liste_sites))
-               if liste_sites[i].text in ("1fichier", "Uptobox DESACTIVE") and "Partie" not in liste_liens_sites[i].text}
+               if liste_sites[i].text in ("1fichier", "Uptobox DESACTIVE") and "Partie " not in liste_liens_sites[i].text}
 
 # TODO Régler le problème de Uptobox
 
