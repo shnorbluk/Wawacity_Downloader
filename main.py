@@ -515,6 +515,9 @@ def selection_manuelle_qualite():
                 print(f"{Fore.RED}Réponse invalide, entrez un chiffre entre 1 et {len(index_qualites)}{Style.RESET_ALL}")
                 choix_valide = False
 
+    nomQualite = index_qualites[index_qualite - 1]
+    for link in movieUploads[nomQualite].links.values():
+        print(link)
     return liens_qualites[index_qualites[index_qualite - 1]]
 
 
