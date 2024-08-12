@@ -15,7 +15,7 @@ class LinkResolver:
         options.add_argument("--disable-search-engine-choice-screen")
         chrome_path = get_chrome_path()
         self.driver = uc.Chrome(headless=False, browser_executable_path=chrome_path, options = options)
-    
+
     def resolveLinks(self, urls):
         links = dict()
         for url in urls:
@@ -25,7 +25,7 @@ class LinkResolver:
             self.driver.get(f"file://{path}")
             link = self.driver.find_element(By.TAG_NAME, "a")
             link.click()
-            sleep(4)
+            sleep(5)
             self.driver.switch_to.window(self.driver.window_handles[1])
             WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located((By.ID, "subButton"))
