@@ -608,8 +608,14 @@ else:
     dl_site = config["SITE"].capitalize()
     print("\nSite récupéré dans config.txt\n")
 
-
-lien_page_captcha = liens_sites[dl_site]
+if dl_site in liens_sites:
+    lien_page_captcha = liens_sites[dl_site]
+else:
+    print(f"{Fore.RED}Aucun lien sur {dl_site} n'est disponible pour cette qualité.\n"
+        f"Veuillez relancer le programme et choisir une autre qualité.\n{Style.RESET_ALL}")
+    driver.quit()
+    input("Appuyez sur Entrer pour quitter...")
+    exit(0)
 
 print(f"\n\n{Fore.LIGHTCYAN_EX}############################################################################\n"
       f"L\'accès au téléchargement nécessite la validation d'un captcha.\n"
