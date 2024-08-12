@@ -92,12 +92,15 @@ check_download_extract(version)
 driver = driver_init()
 
 # Fermeture du webdriver quand on fait Ctrl+C, pour éviter de ralentir le PC avec des processus Chrome fantômes
-def signal_handler(sig, frame):
-    driver.quit()
-    print("Webdriver arrêté")
-    sys.exit(0)
-    print("exit(0)")
-signal.signal(signal.SIGINT, signal_handler)
+# def signal_handler(sig, frame):
+#     def killDriver():
+#         driver.quit()
+#     print("Arrêt du programme en cours...")
+#     kill_thread = threading.Thread(target=killDriver)
+#     kill_thread.start()
+#     print("Webdriver arrêté")
+#     os._exit(0)
+# signal.signal(signal.SIGINT, signal_handler)
 
 
 # ----------Initialisation du driver---------- #
