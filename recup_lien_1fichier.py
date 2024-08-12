@@ -64,6 +64,7 @@ def driver_init():
     options.add_argument('--lang=fr')
     options.add_argument('--disable-extensions')
     options.add_argument("--disable-search-engine-choice-screen")
+    options.add_argument("--blink-settings=imagesEnabled=false")
     if chrome_path:
         options.binary_location = chrome_path
 
