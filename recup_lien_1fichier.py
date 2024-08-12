@@ -51,26 +51,7 @@ else:
 def driver_init():
     print(f"\n\nInitialising...\n{Fore.BLACK}")
 
-    def is_exe(fpath):
-        return os.path.isfile(fpath) and os.access(fpath, os.X_OK)
-    def detect_scoop_chrome_app():
-        chrome_exe = shutil.which("chrome")
-        chrome_exe_dir = os.path.dirname(chrome_exe)
-        chrome_shim = os.path.join(chrome_exe_dir, "chrome.shim")
-        if os.path.isfile(chrome_shim):
-            with open(chrome_shim, 'r', encoding='utf8') as file:
-                return file.readline().strip().split(" = ")[1].replace('"', '')
-        return None
-
-    portable_chrome_path = 'Chrome\\App\\Chrome-bin\\chrome.exe'
-    if "CHROME_PATH" in config:
-        chrome_path = config["CHROME_PATH"]
-    elif is_exe(portable_chrome_path):
-        chrome_path = portable_chrome_path
-    elif (scoop_chrome_app := detect_scoop_chrome_app()):
-        chrome_path = scoop_chrome_app
-    else:
-        chrome_path = None
+    chrome_path = get_chrome_path()
 
     # options = Options()
     service = Service()
@@ -96,6 +77,30 @@ def driver_init():
     print(f"{Fore.GREEN}Init OK !\n{Style.RESET_ALL}")
 
     return driver
+
+def get_chrome_path():
+    def is_exe(fpath):
+        return os.path.isfile(fpath) and os.access(fpath, os.X_OK)
+    def detect_scoop_chrome_app():
+        chrome_exe = shutil.which("chrome")
+        chrome_exe_dir = os.path.dirname(chrome_exe)
+        chrome_shim = os.path.join(chrome_exe_dir, "chrome.shim")
+        if os.path.isfile(chrome_shim):
+            with open(chrome_shim, 'r', encoding='utf8') as file:
+                return file.readline().strip().split(" = ")[1].replace('"', '')
+        return None
+
+    portable_chrome_path = 'Chrome\\App\\Chrome-bin\\chrome.exe'
+    if "CHROME_PATH" in config:
+        chrome_path = config["CHROME_PATH"]
+    elif is_exe(portable_chrome_path):
+        chrome_path = portable_chrome_path
+    elif (scoop_chrome_app := detect_scoop_chrome_app()):
+        chrome_path = scoop_chrome_app
+    else:
+        chrome_path = None
+    return chrome_path
+
 
 
 def recup_lien(lien) -> tuple[str, str]:
